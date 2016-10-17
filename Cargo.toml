@@ -1,0 +1,10 @@
+[package]
+name = "signencrypt"
+version = "0.1.0"
+authors = ["jacko"]
+
+[dependencies]
+sodiumoxide = ">=0.0.12"
+byteorder = ">=0.5.3"
+rustc-serialize = ">=0.3.19"
+docopt = ">=0.6.86"
