@@ -201,7 +201,10 @@ pub enum Error {
     BadSignature,
 }
 
-fn cmd_seal(enckey: secretbox::Key, signkey: sign::SecretKey, nonce: Nonce, chunk_len: Option<usize>) {
+fn cmd_seal(enckey: secretbox::Key,
+            signkey: sign::SecretKey,
+            nonce: Nonce,
+            chunk_len: Option<usize>) {
     let mut encoder = Encoder::new(enckey, signkey, nonce);
     if let Some(chunk_len) = chunk_len {
         encoder.set_plaintext_chunk_len_for_testing(chunk_len);
@@ -223,7 +226,10 @@ fn cmd_seal(enckey: secretbox::Key, signkey: sign::SecretKey, nonce: Nonce, chun
     stdout.write_all(&output).unwrap();
 }
 
-fn cmd_open(enckey: secretbox::Key, verifykey: sign::PublicKey, nonce: Nonce, chunk_len: Option<usize>) {
+fn cmd_open(enckey: secretbox::Key,
+            verifykey: sign::PublicKey,
+            nonce: Nonce,
+            chunk_len: Option<usize>) {
     let mut decoder = Decoder::new(enckey, verifykey, nonce);
     if let Some(chunk_len) = chunk_len {
         decoder.set_plaintext_chunk_len_for_testing(chunk_len);
@@ -312,7 +318,8 @@ fn main() {
     }
     let signkey = sign::SecretKey::from_slice(&signkey_bytes).unwrap();
 
-    let mut verifykey_bytes = *b";j'\xbc\xce\xb6\xa4-b\xa3\xa8\xd0*o\rse2\x15w\x1d\xe2C\xa6:\xc0H\xa1\x8bY\xda)";
+    let mut verifykey_bytes =
+        *b";j'\xbc\xce\xb6\xa4-b\xa3\xa8\xd0*o\rse2\x15w\x1d\xe2C\xa6:\xc0H\xa1\x8bY\xda)";
     if let Some(ref arg) = args.flag_verifykey {
         decode_hex_arg(arg, "verifykey", &mut verifykey_bytes);
     }
