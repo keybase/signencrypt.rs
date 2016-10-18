@@ -21,7 +21,7 @@ fn make_secretbox_nonce(nonce: &Nonce, chunk_num: u64) -> secretbox::Nonce {
     secretbox::Nonce::from_slice(&buf).unwrap()
 }
 
-const SIGNATURE_PREFIX: &'static [u8] = b"keybase chat attachment\0";
+const SIGNATURE_PREFIX: &'static [u8] = b"Keybase-Chat-Attachment-1\0";
 
 fn make_signature_input(plaintext: &[u8],
                         enckey: &secretbox::Key,
