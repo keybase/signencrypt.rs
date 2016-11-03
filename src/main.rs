@@ -52,8 +52,7 @@ fn seal_packet(plaintext: &[u8],
     let mut signed_chunk = Vec::new();
     signed_chunk.extend_from_slice(&signature[..]);
     signed_chunk.extend_from_slice(plaintext);
-    let ciphertext = secretbox::seal(&signed_chunk, &secretbox_nonce, enckey);
-    ciphertext
+    secretbox::seal(&signed_chunk, &secretbox_nonce, enckey)
 }
 
 fn open_packet(packet: &[u8],
@@ -131,8 +130,7 @@ impl Encoder {
     pub fn finish(&mut self) -> Vec<u8> {
         assert!(self.buf.len() < self.plaintext_chunk_len);
         let buf_len = self.buf.len();
-        let packet = self.seal_one_packet(buf_len);
-        packet
+        self.seal_one_packet(buf_len)
     }
 }
 
@@ -285,7 +283,7 @@ macro_rules! eprintln {
 
 fn decode_hex_arg(arg: &str, name: &str, dest: &mut [u8]) {
     let res = arg.from_hex();
-    if let Err(_) = res {
+    if res.is_err() {
         eprintln!("arg \"{}\" is invalid hex", arg);
         std::process::exit(1);
     }
